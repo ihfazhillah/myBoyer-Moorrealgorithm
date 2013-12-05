@@ -5,15 +5,12 @@ good_table={}
 s_len=0
 d_len=0
 
-def use_bad_table((a,b)):
-    return 100
+def use_bad_table((wrong_word,s_now)):
+    return 7
     
-def use_goodd_table((a,b)):
-    pass
+def use_good_table((wrong_word,s_now)):
+    return 1
     
-def check_other_word():
-    pass
-
 def check_word(src,dst,total_position):
     global bad_table
     global good_table
@@ -28,15 +25,14 @@ def check_word(src,dst,total_position):
         else :
             return 2,(src[-1],s_now)
     else:
-        now_list=range(s_len-1)
-        now_list.reverse()
-        for s_now in now_list:
-            print s_now
-            wrong_word = check_other_word(src,dst,s_now)
-            if wrong_word:
+        d_now = total_position
+        while s_now>=0:
+            s_now -= 1
+            d_now -= 1
+            if src[s_now] != dst[d_now]:
+                wrong_word = dst[d_now]
                 return 2,(wrong_word,s_now)
-            else:
-                s_now -= 1
+                
     return 0,0
     
     
@@ -68,6 +64,7 @@ def BMsearch(src,dst):
     same as string.find()
     src is the string to search
     dst is the string to be searched in'''
+    
     global bad_table
     global good_table
     global s_len
@@ -84,7 +81,6 @@ def BMsearch(src,dst):
         if flag == 0:#find
             return total_position-s_len+1  
         elif flag == 1:#all move
-            print 'flag 1'
             total_position+=result
         elif flag == 2:
             bad_dis = use_bad_table(result)
